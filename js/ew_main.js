@@ -17,7 +17,9 @@ $(document).ready(function () {
         if (engWords.indexOf(word) === -1) { // если в массиве нет этого слова
             engWords.push(word);// то добавляем в него новое слово
         }
-    });// конец МОДУЛЬ англ. слов часть 1.
+    });
+    
+  // конец МОДУЛЬ англ. слов часть 1.
 
     //  3.2. --- Передача массива слов на сервер (AJAX) и ПРИХОД слов уже с транскрипцией и переводом ----
     // ПОЛУЧЕННЫЙ перевод и тр-я ==> в переменную dictionery созданную скриптом в hrml <p id="for-script"><script>
@@ -25,15 +27,27 @@ $(document).ready(function () {
 
     // 3.3 --- ЗАПИСЬ перевода в атрибут data-tr для показа всплывающих подсказок. ------------
     let addToDictionary = []; //создаем массив для добавления в словарь (слов не нашедших перевод)
-    // --- Добавляем в массив слова, не нашедшие перевода на сервере. -----
+  
+    // --- ЗАПИСЫВАЕМ транскрипции в атрибуты data-tr + Добавляем в массив слова, не нашедшие перевода на сервере. -----
     $('.tr').each(function (indx, elem) { // Получаем ВСЕ слова с классом tr.
         let word1 = $.trim($(elem).text().toLowerCase()); // Удаvяем пробелы, табы, переносы строк + в нижний регистр
         if (dictionary.hasOwnProperty(word1)) {
-            $(elem).attr('data-tr', dictionary[word1][0] + ' - ' + dictionary[word1][1]);
+            $(elem).attr('data-tr', dictionary[word1][0]);
         } else { // ИНАЧЕ создаем массив отсутствующих переводов слов и отправляем их на сервер noWordTranslate(word);
             addToDictionary.push(word1);
         }
     });
+  
+    // --- ЗАПИСЫВАЕМ транскрипции в атрибуты data-tr + Добавляем в массив слова, не нашедшие перевода на сервере. -----
+    $('.tr-ex').each(function (indx, elem) { // Получаем ВСЕ слова с классом tr.
+        let word1 = $.trim($(elem).text().toLowerCase()); // Удаvяем пробелы, табы, переносы строк + в нижний регистр
+        if (dictionary.hasOwnProperty(word1)) {
+            $(elem).attr('data-tr', dictionary[word1][0]);
+        } else { // ИНАЧЕ создаем массив отсутствующих переводов слов и отправляем их на сервер noWordTranslate(word);
+            addToDictionary.push(word1);
+        }
+    }); 
+  
   /**/
     //	3.4. --- МЕНЯЕМ ПОЛОЖЕНИЕ ::after в зависимости от правого края окна
     $('.tr').hover(function () {
@@ -43,23 +57,14 @@ $(document).ready(function () {
         //  либо задавать position родителю, но тогда ломается Оглавление.
         let elemCoord = this.getBoundingClientRect(); // В объекте пишем координаты краев элемента
         let distance = $(".main").width() - elemCoord.left;
-        if (distance < 201) {
+        if (distance < 71) {
 //            console.log(" Считаем ");
             el.addClass('tr-left'); //... сдвинаем влево ::after на 200px
         }
-        //distance = el.parent().width() - el.position().left; // ? Заново пересчитываем
+        distance = el.parent().width() - el.position().left; // ? Заново пересчитываем
     });
 
-    // 3.6 === Показ транскрипций слов для SENSITIVE и DESKTOP.  ===
-    
-      // --- КОНТРОЛЬ СОБЫТИЙ (DESKTOP или SENSITIVE)
-  /*
-    $('.tr').on('touchend', function(event){ // Отслеживаем СРАЗУ ДВА события.
-        //alert(" Сработало - " + event.type );
-        //$('.tr').removeClass('show'); // Удаляем у всех ПОКАЗ псевдоклассов.
-        //$(this).addClass("show");     // Показываем псевдоклассы только у текущего
-    });
-  */
+    // 3.6 === Показ транскрипций слов в УПРАЖНЕНИЯХ для SENSITIVE и DESKTOP.  ===
     $('span.tr-ex').hover(function(event){
         $('span.tr-ex').not($(this)).removeClass('show'); // Удаляем у всех ПОКАЗ псевдоклассов.
         $(this).addClass("show");     // Показываем псевдоклассы только у текущего
@@ -68,26 +73,6 @@ $(document).ready(function () {
     $('body:not(.tr-ex)').on('click', function(event){
         $('.tr-ex').removeClass('show');
     });
-  
-    
-   /* 
-    $('.tr').on('touchend mouseover', function(event){ // Отслеживаем СРАЗУ ДВА события.
-        if ($("#tir").prop('checked') == true) { // Если checkbox показа транскрипций включен
-            if (event.type === 'touchend') { // Если СЕНСОРНОЕ событие
-                return true;
-                alert('touchend');
-                //$('.tr').removeClass('show'); // Удаляем у всех ПОКАЗ псевдоклассов.
-                $(this).addClass("show");     // Показываем псевдоклассы только у текущего
-            } else if (event.type === 'mouseover') { // Если курсор 
-                alert($(this).html()); //
-                //$('.tr').removeClass('show'); // Удаляем у всех ПОКАЗ псевдоклассов.
-                $(this).addClass("show"); // Показываем псевдоклассы только у текущего
-            } // Конец внутренноего if
-        } else {  // Если checkbox показа транскрипций выключен
-            //$('.tr').removeClass('show');
-        } // Конец внешнего if
-    }); // Конец on 'touchend mouseover' 
-  */
   
     // ----- конец всплывающих подсказок	-----------------------------------------
 }); // КОНЕЦ $(document).ready(function() {})
