@@ -335,11 +335,10 @@ footer { /* --- ПОДВАЛ */
   bottom: 15px; /* Позиционирование стрелки снизу */
   left: 30%; /* Позиционирование стрелки слева */
 }
-
 .tr-left:hover::after {left: -30px;}  /*Если у правого края */
-
 /* --- КОНЕЦ всплывающей подсказки ТРАНСКРИПЦИИ И ПЕРЕВОДА  ------------------ */
- 
+
+/**/
 /* ------------ КОНЕЦ СТИЛЕЙ на 07.04.2020 ----------------------------------  */
 
 /* ==== НАЧАЛО СТИЛЕЙ  14.04.2020 =================== */
@@ -390,7 +389,6 @@ footer { /* --- ПОДВАЛ */
   font-weight: 600;
   text-align: center;
 }
-
 .sort li {
   display: flex;
   margin:1px; 
@@ -411,9 +409,11 @@ footer { /* --- ПОДВАЛ */
 .rus { /* Предложения на русском */
   font-style: oblique;
 }
-
-.hidd {
+.hidden {
   visibility: hidden;
   font-size: 3px;
   height: 5px;
   }
+. 
+.green {background-color: aquamarine;}
+.red {background-color: darksalmon;}
